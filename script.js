@@ -1,60 +1,122 @@
-console.log("Week 4 - class assignment");
+console.log("Week 9 - JS - Objects - Class Assignment");
 
-const orderFoodFromDifferentRestaurants = (restaurantName, foodName, amountOfFood) => `You are ordering ${amountOfFood} ${foodName} from ${restaurantName}`;
+const displayValueElement = document.querySelector(".display_value");
 
-console.log(orderFoodFromDifferentRestaurants("Omo's Pizza", "Chicken Pizza", 5));
+const displayHeadingOnAnHTMLElement = (value) => {
+  let result = `<h2 class='display_heading'>${value}: </h2> <br />`;
+  return displayValueElement.innerHTML += result;
+};
 
-// **************
+const loopThroughObjectDisplayValueOnAnHTMLElement = (obj) => {
+  // Slide 11/38
+  for (let key in obj) {
+    if (key === 'printOnConsole') {
+      displayValueElement.innerHTML += `<p class='display_method_result'>Method - printOnConsole() - ${obj.printOnConsole()}</p> <br />`;
+    }
+    else if (key === 'logDishType') {
+      displayValueElement.innerHTML += `<p class='display_method_result'>Method - logDishType() - ${obj.logDishType()}</p> <br />`;
+    }
+    else {
+      displayValueElement.innerHTML += `<p class='display_result'>${key}: <span>${obj[key]}</span></p> <br />`;
+    }
+  }
 
-// A. Create 3 HTML element divs
-// a. Add some text to 
+  return displayValueElement.innerHTML;
+};
 
-const first_div_element = document.getElementById("first_div");
+// Slide 12/38
+// Object
+const person = {
+  name: 'John',
+  age: 34,
+  hasPet: true,
+  petName: 'Mushroom'
+};
 
-// Not working
-// Can get only array of Elements - can not apply style on this fetched variable.
-// const second_div_element = document.getElementsByClassName("second_div");
+displayHeadingOnAnHTMLElement("Objects");
+displayHeadingOnAnHTMLElement("Loop through 'person' object");
+loopThroughObjectDisplayValueOnAnHTMLElement(person);
 
-// Working - to apply background color on the element
-const second_div_element = document.querySelector(".second_div");
+const personsName = person.name;
 
-// Not working
-// Can get only array of Elements - can not apply style on this fetched variable.
-// const third_div_element = document.getElementsByTagName("div");
+// Slide 13/38
+const objectWithFunction = {
+  name: 'Ada',
+  age: 38,
+  printOnConsole: function () {
+    const personNameAndAge = `Person's name = ${this.name} & age = ${this.age}`;
+    console.log("personNameAndAge: ", personNameAndAge);
+    return personNameAndAge;
+  }
+};
 
-// Working - grabbin the first div
-// const third_div_element = document.querySelector("div");
-const third_div_element = document.querySelectorAll("div")[2];
+objectWithFunction.printOnConsole();
 
-const read_more_button_element = document.getElementById("read_more_button");
+displayHeadingOnAnHTMLElement("Loop through 'objectWithFunction' object");
+loopThroughObjectDisplayValueOnAnHTMLElement(objectWithFunction);
 
-console.log(first_div_element);
-// first_div_element.innerHTML = "Test changing content";
+// Slide 14/38
+// Exercise - 1
 
-console.log(second_div_element);
-console.log(third_div_element);
-console.log(read_more_button_element);
+// 1. Transform the database from array of arrays to an array of objects, with a key-value pair for each of the properties.
+// 2. Add a "method" to one of the new dishes that console logs "I am a dish of type: [typeOfDish]". For a vegetarian dish, the function will log something like: "I am a dish of type: vegetarian".
 
-read_more_button_element.setAttribute("disabled", true);
+// Slide 18/38
+// Exercise - 2
 
-first_div_element.style.height = "100px";
-first_div_element.style.width = "300px";
-first_div_element.style.border = "2px solid red";
-first_div_element.style.backgroundColor = "coral";
+// Intro: Your family owns a restaurant and you want to create a website for it. In the next slide you can find a database of your family’s restaurant menu.
+// 1. Transform the database from array of arrays to an array of objects, with a key-value pair for each of the properties.
+// 2. Add a “method” to one of the new dishes that console logs “I am a dish of type: [typeOfDish] ”. For a vegetarian dish, the function will log something like: ‘I am a dish of type: vegetarian’.
 
-second_div_element.style.height = "100px";
-second_div_element.style.width = "300px";
-second_div_element.style.border = "2px solid green";
-second_div_element.style.backgroundColor = "#87365e";
+const menuDatabase = [
+  ["Papadum", 20, "vegetarian"],
+  ["Pakora", 50, "meat"],
+  ["Tandoori Chicken", 60, "meat"],
+  ["Samosa", 50, "vegetarian"],
+  ["Butter Chicken", 139, "meat"],
+  ["Chicken Korma", 129, "meat"],
+  ["Chicken Vindaloo", 149, "meat"],
+  ["Saag Lamb", 130, "meat"],
+  ["Lamb Tikka Masala", 159, "meat"],
+  ["Yellow Daal Tadka", 119, "vegetarian"],
+  ["Biryani", 129, "vegetarian"],
+  ["Gulab Jamun", 55, "dessert"],
+  ["Mango Kulfi", 35, "dessert"],
+  ["Rasmalai", 60, "dessert"],
+];
 
-third_div_element.style.height = "100px";
-third_div_element.style.width = "300px";
-third_div_element.style.border = "2px solid blue";
-third_div_element.style.backgroundColor = "#00ff95";
+displayHeadingOnAnHTMLElement("menuDatabase - array of arrays");
+loopThroughObjectDisplayValueOnAnHTMLElement(menuDatabase);
 
-const createDivElement = document.createElement("div");
-const node = document.createTextNode("This is new.");
-const createPElement = document.createElement("p");
-// document.appendChild(createDivElement);
-first_div_element.appendChild(createPElement);
-createPElement.textContent = "New Element";
+// 1. Transform the database from array of arrays to an array of objects, with a key-value pair for each of the properties.
+let menuDatabaseArrayOfObjects = {};
+
+function convertArrayOfArraysToArrayOfObjects(arr) {
+  menuDatabaseArrayOfObjects = arr.map(item => {
+    let [name, price, type] = item;
+
+    let result = {
+      dishName: name,
+      dishPrice: price,
+      dishType: type,
+
+      // 2. Add a “method” to one of the new dishes that console logs “I am a dish of type: [typeOfDish] ”. For a vegetarian dish, the function will log something like: ‘I am a dish of type: vegetarian’
+      logDishType() {
+        const typeOfDish = `'${name}' is a dish of type: ${type}`;
+        console.log("typeOfDish: ", typeOfDish);
+        return typeOfDish;
+      }
+    };
+
+    loopThroughObjectDisplayValueOnAnHTMLElement(result);
+
+    return result;
+  });
+
+  return menuDatabaseArrayOfObjects;
+}
+
+displayHeadingOnAnHTMLElement("menuDatabase - array of objects - using 'convertArrayOfArraysToArrayOfObjects'");
+
+const menuDatabaseConvertedToArrayOfObjects = convertArrayOfArraysToArrayOfObjects(menuDatabase);
+console.log(`menuDatabaseConvertedToArrayOfObjects: ${JSON.stringify(menuDatabaseConvertedToArrayOfObjects)} & type of - ${typeof menuDatabaseConvertedToArrayOfObjects}`);
